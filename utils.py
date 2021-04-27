@@ -20,6 +20,7 @@ from yolov3.yolov4 import *
 from tensorflow.python.saved_model import tag_constants
 from loguru import logger
 from datetime import datetime, timedelta
+import collections
 
 
 def load_yolo_weights(model, weights_file):
@@ -438,7 +439,6 @@ def save_image_mp(
             label = False
 
             for box in bboxes:
-
                 x_min = box[0]
                 x_max = box[2]
                 y_min = box[1]
@@ -454,17 +454,17 @@ def save_image_mp(
                     # check if the id in the id dictionary
                     if map_classes:
                         if class_id in maping_dictionary:
-                            index = maping_dictionary.keys().index(class_id)
+                            index = list(maping_dictionary.keys()).index(class_id)
+                            old_class_id = class_id
                             class_id = maping_dictionary[class_id]
 
-                            # doesn't work because 
                             if max_number:
-                                current_val = current_dict[index]
-                                if current_val <= max_number[index]:
-                                    current_dict[index] += 1
+                                current_val = current_dict[old_class_id]
+                                if current_val <= max_number_dict[old_class_id]:
+                                    current_dict[old_class_id] += 1
                                 else:
                                     print("Max val reached for : ", class_id)
-                                    print("Total number: ", current_dict[index])
+                                    print("Total number: ", current_dict[old_class_id])
                                     continue
                         else:
                             continue
@@ -547,7 +547,7 @@ def detect_images_multi_process(
 
     total_images = len(files_list)
 
-    maping_dictionary = {}
+    maping_dictionary = collections.OrderedDict()
 
     # check if bigger det
     if bigger_detector is not None:
@@ -589,6 +589,7 @@ def detect_images_multi_process(
                         total_number[counter]
                     ]
                     counter += 1
+                    labeled_objects_number.append(object_list)
         else:
             labeled_objects_number = None
 

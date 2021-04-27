@@ -9,11 +9,14 @@
  It runs on GPU and uses TensorflowRT.  Using an already trained network, you can label another datasets and use them for retrain or whatever you wish.
  This project is based on: https://github.com/pythonlessons/TensorFlow-2.x-YOLOv3
 
+**Classes instances in dataset before and after running auto-detection script using two trained networks and default yolov4 Coco dataset weights.**
+
+![Dataset modifications](<images/ds.gif>)
 **What do I need?**
 1. You need a trained yolo model
 2. You need an unlabeled dataset containing objects that the model was trained to detect.
 3. Feed the wizzard the unlabeled dataset and trained weights and he will do *MAGIC* for you!
-(OFC, it won't be as good as manual labeling, but still can save you some precious hours)
+(OFC, it won't be as good as manual labeling, but still can save you some precious hours).
 
 **The most paintfull part**
 
@@ -30,22 +33,45 @@ Testing benchmark:
 * 80 GB disk
 
 Testing versions:
-* CUDA 10.1
+* CUDA 10.1.243
 * cuDNN v7.6.5
-* 
+* TensorRT-6.0.1.5
+* Tensorflow-GPU 2.3.1
 
-Average detection time per image of 0.20 s using a FP16 network.
+How to check your versions:
+
+**CUDA**: nvcc  --version
+
+Will output:
+
+    nvcc: NVIDIA (R) Cuda compiler driver
+    Copyright (c) 2005-2019 NVIDIA Corporation
+    Built on Sun_Jul_28_19:07:16_PDT_2019
+    Cuda compilation tools, release 10.1, V10.1.243
+ 
+
+**cuDnn**: cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
+
+Will output
+
+    define CUDNN_MAJOR 7
+    #define CUDNN_MINOR 6
+    #define CUDNN_PATCHLEVEL 5
+
+which means: cudnn 7.6.5
+
+### **Average detection time per image of 0.20 s using a FP16 network.**
 
 **Image obtainted after detecting with full yolov4 weights using darknet**
 ![Using YOLO weights darknet detection](<images/darknet_predictions.jpg>)
 
 **Image obtained after detecting with converted network using the wizzard**
 
+
+![Using YOLO weights darknet detection](<images/wizzard_predictions.jpg>)
 You can notice the other classes represented too along with the new labels.
 Altough the bounding box is not as precise for the second semaphore compare to the first picture,
 the result is more than resonable.
-![Using YOLO weights darknet detection](<images/wizzard_predictions.jpg>)
-
 
 ## Dependencies
 
@@ -94,8 +120,4 @@ The detection and labeling allows for several configurations:
 
 Convert yolo weights to TRT format. 
 Step by step tutorial here: https://pylessons.com/YOLOv4-TF2-TensorRT/
-
-
-
-## Dependencies
 
