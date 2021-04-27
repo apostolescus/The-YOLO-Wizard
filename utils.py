@@ -265,9 +265,10 @@ def postprocess_boxes(pred_bbox, h, w, input_size, score_threshold):
 
 @logger.catch
 def predict_bbox_mp(
-    Frames_data, Predicted_data, label_interval, check_labeled, maping_dictionary):
-    ''' Checks if the image txt file contains a target class already labeled
-    or in the labeling dictionary and if not runs detection on the image'''
+    Frames_data, Predicted_data, label_interval, check_labeled, maping_dictionary
+):
+    """Checks if the image txt file contains a target class already labeled
+    or in the labeling dictionary and if not runs detection on the image"""
 
     gpus = tf.config.experimental.list_physical_devices("GPU")
 
@@ -341,7 +342,8 @@ def predict_bbox_mp(
 
 @logger.catch
 def postprocess_mp(
-    Predicted_data, Processed_frames, input_size, score_threshold, iou_threshold):
+    Predicted_data, Processed_frames, input_size, score_threshold, iou_threshold
+):
 
     while True:
         if Predicted_data.qsize() > 0:
@@ -378,7 +380,7 @@ def save_image_mp(
     total_counter,
     labeled_objects_number,
     maping_dictionary,
-    labeling_threshold = 0.8
+    labeling_threshold=0.8,
 ):
 
     internal_counter = 0
@@ -405,8 +407,6 @@ def save_image_mp(
 
             current_dict[int(class_id)] = int(current_number)
             max_number_dict[int(class_id)] = int(max_number)
-
-
 
     while True:
         if Processed_frames.qsize() > 0:
@@ -537,8 +537,7 @@ def detect_images_multi_process(
     bigger_detector=None,
 ):
 
-    
-    input_size = 608 # input size must match converted network size
+    input_size = 608  # input size must match converted network size
     logger.start("file_{time}.log", rotation="500 MB", enqueue=True)
 
     frames_data = Queue()
@@ -586,7 +585,7 @@ def detect_images_multi_process(
                     object_list = [
                         key,
                         already_labeled_number[counter],
-                        total_number[counter]
+                        total_number[counter],
                     ]
                     counter += 1
                     labeled_objects_number.append(object_list)
@@ -638,7 +637,7 @@ def detect_images_multi_process(
             logger.error("Image " + element + " could not be read")
         else:
             h, w = image.shape[:2]
-            
+
             # insert maximum 10 elements in queue to not occupy all RAM
             while frames_data.qsize() > 10:
                 time.sleep(2)

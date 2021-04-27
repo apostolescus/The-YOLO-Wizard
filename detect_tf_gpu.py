@@ -14,7 +14,9 @@ def arg_parser():
     global args
 
     ap = argparse.ArgumentParser()
-    ap.add_argument("-d", required=True, help="relative path to the dataset", dest="dir")
+    ap.add_argument(
+        "-d", required=True, help="relative path to the dataset", dest="dir"
+    )
     ap.add_argument(
         "-c",
         "--confidence",
@@ -59,7 +61,7 @@ def detect(directory, confidence, threshold):
 
     # map one detector output to your class configuration
     # if you don't want to use a bigger detector set bigger_detector to None
-    
+
     interest_classes = [0, 1, 2, 3, 5, 7, 11]  # detected classes
     mapped_class = [7, 9, 11, 13, 10, 17, 2]  # replace with the following classes
     bigger_detector = [True, interest_classes, mapped_class]
@@ -70,15 +72,15 @@ def detect(directory, confidence, threshold):
 
     # 3 14
     detect_images_multi_process(
-        image_list, 
+        image_list,
         confidence,
         threshold,
-        False, #check labeled; if used with bigger_detector set to False 
-        0, # number of classes; if used with bigger_detector set to 0
-        0, # offset 
-        total_number, 
+        False,  # check labeled; if used with bigger_detector set to False
+        0,  # number of classes; if used with bigger_detector set to 0
+        0,  # offset
+        total_number,
         already_labeled_number,
-        bigger_detector, 
+        bigger_detector,
     )
 
 
