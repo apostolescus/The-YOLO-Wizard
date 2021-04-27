@@ -62,11 +62,11 @@ which means: cudnn 7.6.5
 
 ### **Average detection time per image of 0.20 s using a FP16 network.**
 
-**Image obtainted after detecting with full yolov4 weights using darknet**
+### **Wizzard detection results:**
+Image obtainted after detecting with full yolov4 weights using darknet:
 ![Using YOLO weights darknet detection](<images/darknet_predictions.jpg>)
 
-**Image obtained after detecting with converted network using the wizzard**
-
+Image obtained after detecting with converted network using the wizzard:
 
 ![Using YOLO weights darknet detection](<images/wizzard_predictions.jpg>)
 You can notice the other classes represented too along with the new labels.
